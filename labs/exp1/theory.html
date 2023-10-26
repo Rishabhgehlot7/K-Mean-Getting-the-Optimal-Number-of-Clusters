@@ -1,0 +1,404 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Virtual Labs </title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/AdminLTE.css">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
+  <script>
+    window.onload = function () {
+      document.getElementById("theory").className = "active treeview";
+    }
+  </script>
+  <style>
+    /* * {
+      text-align: justify;
+    } */
+
+    #toggle_nav:hover {
+      background-color: #1261A0;
+    }
+
+    #theory {
+      background-color: #009dff;
+    }
+
+    #aim:hover,
+    #theory:hover,
+    #pretest:hover,
+    #procedure:hover,
+    #simulation:hover,
+    #result:hover,
+    #posttest:hover,
+    #references:hover {
+      background-color: #009dff;
+    }
+
+    .imageContainer {
+
+      display: flex;
+      justify-content: center;
+      flex-flow: column;
+      align-items: center;
+    }
+
+    img {
+      height: 300px;
+      margin: auto;
+      display: block;
+      /* width: 300px; */
+    }
+
+    p {
+      font-size: 1.8rem;
+    }
+
+    .formula {
+      display: block;
+      text-align: center;
+    }
+
+    .dataSize {
+      font-size: 1.8rem;
+
+    }
+
+    li {
+      text-align: justify;
+    }
+
+    p {
+      text-align: justify;
+    }
+
+    .formula-img {
+      width: 200px !important;
+      height: auto !important;
+      margin: auto;
+      padding: 10px 0px;
+    }
+  </style>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+  <!--Navigation Bar-->
+  <div class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="http://iitb.ac.in"><span><img src="../images/iitrLogo.png"
+              style="margin-top:-15px;height:50px;width: 400px;"></span></a>
+      </div>
+      <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+
+      </div>
+    </div>
+  </div>
+
+  <div class="wrapper">
+    <header class="main-header">
+      <!-- Logo -->
+      <a href="../index.html" class="logo"
+        style="background-color:#009dff; border-right:solid;border-right-color: #1261A0;">
+        <p align="center" style="font-size:1em;color: white;text-align: center;"><b>Machine Learning</b></p>
+      </a>
+      <!-- Header Navbar: style can be found in header.less -->
+      <nav class="navbar navbar-static-top" style="background-color:#009dff;">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button" id="toggle_nav">
+          <span class="sr-only">Toggle navigation</span>
+        </a>
+        <section class="content-header">
+          <ol class="breadcrumb">
+            <li>
+              <a href="../index.html"><i class="fa fa-dashboard"></i>Machine Learning Lab</a>
+            </li>
+            <li>
+              <a href="#">K-Mean: Getting the Optimal Number of Clusters</a>
+            </li>
+            <li class="active">Theory</li>
+          </ol>
+        </section>
+      </nav>
+    </header>
+
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar" style="background-color:#1261A0;">
+      <!-- sidebar: style can be found in sidebar.less -->
+      <section class="sidebar">
+        <!-- search form -->
+        <form action="#" method="get" class="sidebar-form">
+          <div class="input-group"></div>
+        </form>
+        <!-- /.sear ch form -->
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" style="background-color:#1261A0;">
+          <li class="treeview" id="aim">
+            <a href="index.html" id="aim">
+              <i class="fa fa-files-o" style="color:white;"></i> <span style="color:white;">Aim</span>
+
+            </a>
+          </li>
+          <li class="treeview" id="theory">
+            <a href="theory.html" id="theory" onclick="theory()">
+              <i class="fa fa-files-o" style="color:white;"></i>
+              <span style="color:white;">Theory</span>
+            </a>
+          </li>
+          <!--   <li class="treeview" id="numerical">
+                    <a href="numerical.php">
+                        <i class="fa fa-laptop"></i>
+                        <span>Numerical</span>
+                        <span class="pull-right-container">
+                        </span>
+                    </a>
+                </li>
+                <li class="treeview" id="program">
+                    <a href="program.php">
+                        <i class="fa fa-laptop"></i>
+                        <span>Program</span>
+                        <span class="pull-right-container">
+                        </span>
+                    </a>
+                </li> -->
+          <li class="treeview" id="pretest">
+            <a href="pretest.html" id="pretest">
+              <i class="fa fa-files-o" style="color:white;"></i> <span style="color:white;">Pre Test</span>
+
+            </a>
+          </li>
+
+          <li class="treeview" id="procedure">
+            <a href="procedure.html" id="procedure">
+              <i class="fa fa-files-o" style="color:white;"></i> <span style="color:white;">Procedure</span>
+            </a>
+          </li>
+          <li class="treeview" id="simulation">
+            <a href="simulation.html" id="simulation">
+              <i class="fa fa-laptop" style="color:white;"></i>
+              <span style="color:white;">Simulation</span>
+              <span class="pull-right-container">
+              </span>
+            </a>
+          </li>
+
+
+
+          <li class="treeview" id="posttest">
+            <a href=" posttest.html" id="posttest">
+              <i class=" fa fa-files-o" style="color:white;">
+              </i>
+              <span style="color:white;">Post Test</span>
+              <span class="pull-right-container">
+              </span>
+            </a>
+          </li>
+          <li class="treeview" id="ref">
+            <a href="references.html" id="references">
+              <i class="fa fa-files-o" style="color:white;"></i>
+              <span style="color:white;">References</span>
+              <span class="pull-right-container">
+              </span>
+            </a>
+          </li>
+        </ul>
+      </section>
+      <!-- /.sidebar -->
+    </aside>
+
+
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <h1 align="center">
+          K-Mean: Getting the Optimal Number of Clusters<!-- Write experiment name here -->
+        </h1>
+      </section>
+      <!-- Main content -->
+      <section class="content">
+        <!-- <h3 style="margin-top:5%"> Theory </h3> -->
+        <div style="font-size:130%; margin-top:2%">
+          <h1>K-Means Clustering</h1>
+          <p>
+            K-Means Clustering is an unsupervised learning algorithm that is used to solve clustering problems in
+            machine learning or data science. It groups the unlabeled dataset into different clusters. Here’s how it
+            works:
+
+            <li><b>Initialization</b>: Select the number K to decide the number of clusters.</li>
+            <li><b>Assignment</b>: Assign each data point to their closest centroid, which will form the predefined K
+              clusters.</li>
+            <li><b>Update</b>: Calculate the variance and place a new centroid of each cluster.</li>
+            <li><b>Iteration</b>: Repeat the assignment and update steps until no reassignment occurs.</li>
+            The main aim of this algorithm is to minimize the sum of distances between the data point and their
+            corresponding clusters. The value of K should be predetermined in this algorithm. The algorithm takes the
+            unlabeled dataset as input, divides the dataset into K-number of clusters, and repeats the process until it
+            does not find the best clusters. It’s a centroid-based algorithm, where each cluster is associated with a
+            centroid.
+          </p>
+          <h2>Elbow method</h2>
+          <p>
+            The elbow method is a technique used to determine the optimal number of clusters in a dataset for the
+            k-means
+            clustering algorithm. The method involves plotting the explained variation as a function of the number of
+            clusters and selecting the "elbow" of the curve as the number of clusters to use. This is because, as the
+            number of clusters increases, the variation within each cluster decreases, and at some point, the decrease
+            in
+            variation becomes less pronounced. The point at which this occurs is considered to be the optimal number of
+            clusters for the dataset.
+          </p>
+          <div style="width:100%;">
+            <img src="E1.jpg" alt="">
+            <div style="margin: auto;display: block;width: 500px;text-align: center;">Figure 1: Elbow point (optimal
+              number of Cluster)</div>
+          </div>
+          <p>
+          <h3>properties and features of the elbow method are:</h3>
+
+          1. It is a heuristic used in determining the number of clusters in a data set. <br>
+          2. It can be used to choose the number of parameters in other data-driven models, such as the number of
+          principal components to describe a data set. <br>
+          3. It is considered both subjective and unreliable, as in many practical applications, the choice of an
+          "elbow"
+          is highly ambiguous as the plot does not contain a sharp elbow. <br>
+          4. There are various measures of "explained variation" used in the elbow method. Most commonly, variation
+          is
+          quantified by variance, and the ratio used is the ratio of between-group variance to the total variance.
+
+
+          </p>
+          <p>
+
+          <h3>The steps to find the elbow point using the elbow method:</h3>
+
+          1. Run K-means for a range of K's. <br>
+          2. Calculate the Sum of Squares of the distances from the cluster mean.<br>
+          SSE = 
+          where,<br>
+          Xj is datapoint in the cluster,<br>
+          Ci and centroid of thecluster
+          3. Plot a curve of the SSE over K's.<br>
+          4. Visually pick the K at the elbow.<br>
+          </p>
+
+          <h2>Silhouette method</h2>
+          <p>The silhouette method is a technique used to interpret and validate the consistency within clusters of
+            data.
+            It provides a succinct graphical representation of how well each object has been classified. The
+            silhouette
+            value is a measure of how similar an object is to its own cluster (cohesion) compared to other clusters
+            (separation). The silhouette ranges from −1 to +1, where a high value indicates that the object is well
+            matched to its own cluster and poorly matched to neighboring clusters. If most objects have a high value,
+            then
+            the clustering configuration is appropriate. If many points have a low or negative value, then the
+            clustering
+            configuration may have too many or too few clusters.
+          </p>
+          <div style="width:100%;">
+            <img src="s1.jpg" alt="">
+            <div style="margin: auto;display: block;width: 500px;text-align: center;">Figure 2: Silhouette score
+              (optimal number of Cluster)</div>
+          </div>
+          <p>
+          <h3>Properties and features of the silhouette method:</h3>
+          1. It is used for finding an optimal number of clusters. <br>
+          2. It is better than the elbow method to find optimal clusters. <br>
+          3. The silhouette can be calculated with any distance metric, such as the Euclidean distance or the
+          Manhattan
+          distance.
+          </p>
+          <p>
+            The silhouette coefficient ranges from -1 to 1, where a high value indicates that the object is well
+            matched
+            to its own cluster and poorly matched to neighboring clusters.
+          </p>
+          <p>
+          <h3>The steps to calculate the silhouette coefficient for a particular data point:</h3>
+
+          1. Calculate the average distance between the data point and all other data points in the same cluster. This
+          is known as `a(i)`. <br>
+          <img src="ai.svg" class="formula-img" alt="" width="200px">
+          2. Calculate the average distance between the data point and all other data points in the nearest cluster.
+          This is known as `b(i)`. <br>
+          <img src="bi.svg" class="formula-img" alt="" width="200px">
+          3. Calculate the silhouette coefficient `s(i)` for the data point using the formula `s(i) = (b(i) - a(i)) /
+          max(a(i), b(i))`.
+          <img src="si.svg" class="formula-img" alt="" width="200px">
+
+          The silhouette coefficient ranges from -1 to 1, where a high value indicates that the object is well matched
+          to its own cluster and poorly matched to neighboring clusters.
+          </p>
+          <h2>Difference between Elbow method and Silhouette method</h2>
+          <p>The Elbow Method and the Silhouette Method are two different ways of finding the optimal number of clusters
+            (K) in a dataset.</p>
+          <p><b>Elbow Method</b>: This method uses the euclidean distance between the data points and the cluster
+            centroids to
+            measure the quality of clustering. It is simpler and faster, and it’s called the “elbow” method because
+            when you plot the sum of squared distances (inertia) for different values of K, the plot resembles an arm,
+            and the “elbow” point (where the rate of decrease sharply shifts) is considered as a good indication of the
+            optimal K.</p>
+          <p><b>Silhouette Method</b>: This method uses the average distance between the data points within the same
+            cluster
+            and the nearest cluster to measure the cohesion and separation of clusters. It is more comprehensive and
+            accurate. The silhouette score ranges from -1 to +1, where a high value indicates that the object is well
+            matched to its own cluster and poorly matched to neighboring clusters2.</p>
+          <h2>conclusion</h2>
+          <p>
+            The elbow method and the silhouette method are two techniques used to determine the optimal number of
+            clusters in a dataset for the k-means clustering algorithm. Both methods are based on measuring the
+            similarity or dissimilarity between the data points and the cluster centroids. The main difference
+            between the two methods is that the elbow method uses the sum of squared distances (SSE) as the variation
+            measure, while the silhouette method uses the silhouette coefficient as the consistency measure. The elbow
+            method plots the SSE against the number of clusters and looks for a point where the curve bends or elbows.
+            The silhouette method plots the silhouette coefficient against the number of clusters and looks for a
+            point
+            where the curve reaches its maximum. Both methods have advantages and disadvantages, such as simplicity,
+            reliability, and sensitivity to different factors. Therefore, it is advisable to use both methods together
+            and compare their results to find the best number of clusters for a given dataset.
+          </p>
+        </div>
+      </section>
+      <!-- /.content -->
+    </div>
+    <footer class="main-footer">
+      <h4 align="center">Lab contributed by IIT Roorkee <!-- Institute Name --> </h4>
+    </footer>
+  </div>
+
+</body>
+
+</html>
+<script>
+  function theory() {
+    document.getElementById("theory").style.backgroundColor = "#009dff";
+
+  }
+
+
+</script>
+<!-- ./wrapper -->
+<!-- jQuery 2.2.3 -->
+<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+<!-- Slimscroll -->
+<script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="../../plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/app.min.js"></script>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>silhouette method</title>
+    <link rel="stylesheet" href="S1.css" />
+    <!-- <script src="https://www.gstatic.com/charts/loader.js"></script> -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="https://unpkg.com/popper.js@1"></script>
+    <script src="https://unpkg.com/tippy.js@5"></script>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"> -->
+
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js/dist/tippy.css">
+
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"> -->
+</head>
+
+<body>
+    <div class="container" id="box">
+        <!-- Instructions -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">×</span>
+                    <h2 style="text-align: left;">Instructions</h2>
+                </div>
+                <div class="modal-body">
+                    <p>
+                    <ol type="1" style="font-size: 20px; text-align: left;color:black">
+                        <li>Enter the values of x and y in the data set and Click on the <strong>ADD</strong> button.
+                        </li>
+                        <li>Repeat step 1 up to 5 times.</li>
+                        <li>Click on the <strong>NEXT</strong> button.</li>
+                        <li> Select centroids and click on the <strong>SUBMIT</strong> button.
+                        </li>
+                        <li>Find out the Euclidean distance between a centroid and a data point by clicking on the
+                            <strong>DISTANCE</strong> button.
+                        </li>
+                        <li>
+                            Click on the <strong>CLUSTER</strong> button to find cluster of each data point.
+                        </li>
+                        <li>
+                            Click on the <strong>CENTROIDS</strong> button and compute the new centroid of each
+                            Cluster.
+                        </li>
+                        <li>
+                            Repeat steps 5 to 7 until cluster value and new clsuter value are not matched.
+                        </li>
+                        <li>If the Cluster matches the New Cluster, then click on the <strong>NEXT</strong> button and
+                            then click on the <strong>COHESION</strong>.
+                        </li>
+                        <li>Click on the <strong>SEPARATION</strong> button.
+                        </li>
+                        <li>After put the <b>COHESION</b> and <b>SEPARATION</b> in Silhouette coefficient equation from table and
+                            Click on the <strong>SUBMIT</strong> button.
+                        </li>
+                        <!-- <li>Repeat above step 5 times and click on the <strong>NEXT</strong> button.</li> -->
+                        <li>Put the all Silhouette score in Silhouette coefficient equation from table for finding
+                            average Silhouette score.</li>
+                        <li>Click on the <strong>NEXT</strong> button.</li>
+                        <li>Repeat Step 8 to 14 for K = 3, 4, 5.</li>
+                        <!-- <li>Click on Analyse tab.
+                        </li> -->
+                        <li>Click on the <strong>PLOT</strong> button to show the graph.</li>
+                    </ol>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <br>
+                </div>
+            </div>
+        </div>
+
+        <!-- header -->
+        <header class="header">
+            <div class="tabs">
+                <!-- tabs -->
+                <div id="tab-1" class="tab-1-invert" style="color: black;border-top-left-radius: 10px;background-color:#e0e0e0;">
+                    <div class="tab-create tab-1-invert">
+                   
+                        CREATE
+                    </div>
+                    <img id="createimg" src="create1.png" style="margin-top: 3px; margin-right: 10px; height: 85%;" alt="">
+
+                </div>
+                <div id="tab-2" class="tab-1-disInvert" style="display: flex; border-right: 2px solid black;">
+                    <div class="tab-create tab-1-disInvert">
+
+                        <!-- <a href="testing.html" class="tab-text"> COMPUTE</a> -->COMPUTE
+                    </div>
+                    <img id="calcimg" src="calculator.png" class="disableCompute"
+                        style="margin-top: 3px; margin-right: 10px; height: 85%;" id="calImg" alt="">
+                </div>
+                <div id="tab-3" class="tab-2-disInvert" style="display: flex; border-right: 2px solid black;">
+                    <div class="tab-create tab-2-disInvert" id="ana">
+
+                        <!-- <a href="testing.html" class="tab-text"> COMPUTE</a> -->ANALYSE
+                    </div>
+                    <img id="anaimg" src="ANALYSIS ICON.png" class="disableCompute"
+                        style="margin-top: 3px; margin-right: 10px; height: 85%;" id="calImg" alt="">
+                </div>
+            </div>
+            <div class="instruction-container">
+                <a class="header-text" id="myBtn" style="padding-top: 5px" href="#">INSTRUCTIONS</a>
+            </div>
+        </header>
+
+
+
+
+        <div class="sec-con-container" id="trainingSection">
+            <div class="sec-con-column" id="non-table-section">
+                <!-- Data controls -->
+                <div class="training-left-side-container" id="training-left-side-container-1">
+                    <div class="sub-div-control" id="training-control">
+                        <header class="header-box"><strong>DATA SET</strong></header>
+                        <div class="control-panel">
+                            <div class="Data-set-x-value-input-container">
+                                <lab class="control-input-heading"><strong>X-VALUE</strong></lab>
+                                <input type="number" class="input-control" id="X" placeholder="x-coordinate"
+                                    oninput="limitDecimals(event)" min="0" title="Range: (-100,100)">
+                            </div>
+                            <div class=" Data-set-x-value-input-container">
+                                <lab class="control-input-heading"><strong>Y-VALUE</strong></lab>
+                                <input type="number" class="input-control" id="Y" placeholder="y-coordinate"
+                                    oninput="limitDecimals(event)" title="Range: (-100,100)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- data button section -->
+                    <div class="control-panel-button-container" id="data-button-container">
+                        <input class="button" type="button" id="add-button" onclick="addDataPoint()" value="ADD"
+                            style="margin-left: 3px;" />
+                        <input class="button" type="button" value="RESET" onclick="window.location.href='S1.html'"
+                            style="margin-left: 3px;" />
+                        <!-- <input class="button-next" type="button" id="next-button" value="NEXT" style="margin-left: 3px;" /> -->
+                        <button id="next-button" class="button">NEXT</button>
+                    </div>
+
+                </div>
+                <!-- graph -->
+                <div class="sub-div-plot-Create" id="graphId">
+                    <header class="header-box"><strong>GRAPH</strong></header>
+                    <div id="chart-container">
+                        <div id="chart"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- table -->
+            <div class="sec-con-table" id="tableId">
+                <div class="sub-div-table">
+                    <header class="header-box"><strong>OBSERVATION TABLE</strong></header>
+
+                    <div id="tablesContainer">
+                        <table id="data-table">
+                            <!-- <thead> -->
+                            <tr id="">
+                                <th><strong>S. NO.</strong></th>
+                                <th><strong>X</strong></th>
+                                <th><strong>Y</strong></th>
+                                <th id="deleteButton"><strong>DELETE</strong></th>
+                            </tr>
+                            <!-- </thead> -->
+                            <!-- <tbody> -->
+                            <!-- Data point coordinates will be dynamically populated here -->
+                            <!-- </tbody> -->
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div id="elbow-compute">
+                <div class="sec-con-table-elbow-compute" id="tableId">
+                    <div class="sub-div-table-elbow-compute">
+                        <header class="header-box"><strong>OBSERVATION TABLE</strong></header>
+                        <div class="k-show-elbow" id="kshow">for k = 2</div>
+                        <div id="tablesContainer-elbow-compute">
+                            <!-- <div class="overflowContainer"> -->
+                            <table id="data-table-compute">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">S.No.</th>
+                                        <th rowspan="2">X</th>
+                                        <th rowspan="2">Y</th>
+                                        <th id="distance-header">Distance</th>
+                                        <th rowspan="2">Cluster</th>
+                                        <th rowspan="2">New Cluster</th>
+                                    </tr>
+                                    <tr id="distance-sub-columns">
+                                        <!-- Distance sub-columns will be dynamically populated here -->
+                                        <th>D1</th>
+                                        <th>D2</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Data point coordinates will be dynamically populated here -->
+                                </tbody>
+                            </table>
+                            <!-- </div> -->
+                            <div class="elbow-compute-table-button-container">
+                                <button id="button-distance" class="button">DISTANCE</button>
+                                <button id="button-CLUSTER" class="button">CLUSTER</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Elbow method left side -->
+                <div class="sec-con-column-elbow-compute-section" id="non-table-section-Elbow">
+                    <!-- cendroid-control -->
+                    <div class="elbow-compute-left-side-container" id="training-left-side-container-1-elbow">
+                        <div class="sub-div-control-elbow" id="cendroid-control">
+                            <header class="header-box"><strong>RANDOMLY INITIALIZE CENTROIDS</strong></header>
+                            <div class="cendroid-control-panel">
+                                <div class="Data-set-cendroid-value-input-container">
+                                    <label class="control-input-heading"><strong style="padding-left: 20px;">Select
+                                            Centroids:</strong></label>
+                                    <div class="flexContainerForSelectingCentoinds"> <select name="cendroid"
+                                            id="Selectcendroid" class="cendroidStyle" aria-placeholder="cendroidStyle"
+                                            multiple>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                        <div class="flexContainerForCompute">
+                                            <input class="button" type="button" id="cendroid-submit-button"
+                                                value="SUBMIT" style="margin-left: 3px;" onclick="submitCendroid()" />
+                                            <!-- <input class="button" type="button" id="cendroid-reset-button" value="RESET"
+                                            style="margin-left: 3px;" onclick="resetCentroidSection()" /> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="elbow-compute-left-side-container" id="training-left-side-container-2-elbow">
+                        <div class="sub-div-control-elbow" id="cendroid-control">
+                            <header class="header-box"><strong>CENTROIDS</strong></header>
+                            <div id="showOldCentroids"></div>
+
+                        </div>
+                    </div>
+                    <!-- graph -->
+                    <div class="sub-div-plot-elbow-compute" id="ElbowComputeId">
+                        <header class="header-box"><strong id="calculation_formula_header">FORMULA</strong></header>
+                        <div id="calculation"></div>
+                        <div class="button-compute-elbow">
+                            <button class="button" id="new-centroid-button" style="width: 140px;">CENTROIDS</button>
+                            <button id="submit_button" class="button">SUBMIT</button>
+                            <button id="SSE_next" class="button">NEXT</button>
+                            <button class="button" id="next-elbow-button">NEXT</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="sec-con-column" id="non-table-section">
+
+                <div id="s-compute">
+                    <div class="sec-con-table-s-compute" id="tableId">
+                        <div class="sub-div-table-s-compute">
+                            <header class="header-box"><strong>OBSERVATION TABLE</strong></header>
+                            <div class="k-show-elbow" id="s_show">for k = 2</div>
+                            <div id="tablesContainer-s-compute">
+                                <table id="s-table-compute">
+                                    <thead>
+                                        <tr>
+                                            <th>S.No.</th>
+                                            <th>X</th>
+                                            <th>Y</th>
+                                            <th>Cluster</th>
+                                            <th>a(i)</th>
+                                            <th>b(i)</th>
+                                            <th>s(i)</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        <!-- Data point coordinates will be dynamically populated here -->
+                                    </tbody>
+                                </table>
+                                <!-- </div> -->
+                                <div class="elbow-compute-table-button-container">
+                                    <button id="button-COHESION" class="button">COHESION</button>
+                                    <button id="button-SEPARATION" class="button">SEPARATION</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Elbow method left side -->
+                    <div class="sec-con-column-s-compute-section">
+                        <!-- cendroid-control -->
+                        <div class="s-compute-left-side-container">
+                            <div class="sub-div-control-s">
+                                <header class="header-box"><strong>GRAPH</strong></header>
+                                <div id="legend"></div>
+                                <div id="s-graph" style="width: 520px;
+                                height: 260px;"></div>
+
+
+                            </div>
+                        </div>
+                        <!-- graph -->
+                        <div class="sub-div-plot-s-compute" id="a-cal">
+                            <header class="header-box"><strong>FORMULA</strong></header>
+                            <div>
+                                <h3 style="padding: 10px 0px;margin: 0px;">COHESION</h3>
+                                <P style="margin: 0%; padding: 0%;text-align: left;padding-left: 10px;">a(i) - it gives
+                                    a measure of how well assigned the
+                                    i<sup>th</sup> data point is to it's cluster.</P><br>
+                                <div style="display: flex;justify-content: space-evenly; align-items: center;">
+                                    <img src="Slide11.png" width="150px" alt="">
+                                    <img src="ai.svg" alt="">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sub-div-plot-s-compute" id="b-cal">
+                            <header class="header-box"><strong>FORMULA</strong></header>
+                            <div>
+                                <h3 style="padding: 10px 0px;margin: 0px;">SEPARATION</h3>
+                                <P style="margin: 0%; padding: 0%;text-align: left;padding-left: 10px;">b(i) - it is
+                                    defined as the average dissimilarity to
+                                    the closest cluster which is not it's cluster. </P><br>
+                                <div style="display: flex;justify-content: space-evenly; align-items: center;">
+                                    <img src="Slide22.png" width="181px" alt="">
+                                    <img src="bi.svg" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sub-div-plot-s-compute" id="s-cal">
+                            <header class="header-box"><strong>CALCULATION</strong></header>
+                            <div class="s-input-container">
+                                <span style="margin:0px 10px;font-size: 21px;" id="s_equal">s(1)</span>=<div
+                                    style="margin: 0px 20px;" id="si"><input id="b_i" type="text" class="s-input"
+                                        placeholder="b(1)"> -
+                                    <input type="text" class="s-input" placeholder="a(1)" id="a_i">
+                                    <hr> <input type="text" class="s-input" style="width: 110px;" id="max_a_b_i"
+                                        placeholder="max{b(1),a(1)}">
+                                </div>
+                            </div>
+                            <p style="padding: 10px 0px 1px 10px;text-align: left;margin: -14px 10px;"><b style="color:#FF6600">NOTE:</b> enter 'i'
+                                for infinite value.
+                            </p>
+                            <div class="button-compute-s">
+                                <button id="s-submit" class="button">SUBMIT</button>
+                                <button id="s-avg-next" class="button">NEXT</button>
+                            </div>
+                        </div>
+                        <div class="sub-div-plot-s-compute" id="s-avg-cal">
+                            <header class="header-box"><strong>CALCULATION</strong></header>
+                            <div class="s-avg-input-container" style="position: relative;">
+                                <span style="margin:0px 10px;font-size: 18px;position: absolute;left: 10px;" id="sAvg">s(avg)
+                                    =</span>
+                                <div style="margin: 0px 10px;position: absolute;left: 77px;" id="eq-form">
+                                    <div class="input-container-s-avg" id="avg-s-coff">
+                                        <input type="number" class="s-input" id="s-avg-1">+
+                                        <input type="number" class="s-input" id="s-avg-2">+
+                                        <input type="number" class="s-input" id="s-avg-3">+
+                                        <input type="number" class="s-input" id="s-avg-4">+
+                                        <input type="number" class="s-input" id="s-avg-5">
+
+                                    </div>
+                                    <hr id="extra2">
+                                    <span id="extra1">5</span>
+                                </div>
+                            </div>
+                            <div class="button-compute-s">
+                                <button id="s-avg-submit" class="button">SUBMIT</button>
+                                <button id="s-next" class="button">NEXT</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+
+
+
+
+        <!-- analyse section -->
+        <div class="compute-sec-con-container" id="analyseSection">
+            <div class="flux-box">
+                <!-- table -->
+                <div class="analysis-sec-con-table">
+                    <div class="analysis-sub-div-table">
+                        <header class="header-box"><strong>OBSERVATION TABLE</strong></header>
+                        <div id="analysisTablesContainer">
+                            <table id="sse-table" border="1">
+                                <thead>
+                                    <tr>
+                                        <th>CLUSTERS</th>
+                                        <th>SILHOUETTE SCORE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Table rows will be added dynamically here -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="sec-con-column-analysis">
+
+                    <div class="sub-div-plot-analysis">
+                        <header class="header-box"><strong>GRAPH</strong></header>
+                        <div id="scatter-chart"></div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="analysis-button-container">
+                <button class="button" id="plot-analysis">PLOT</button>
+                <button class="button" id="print" onclick="printPage()">PRINT</button>
+            </div>
+
+        </div>
+        <!-- footer -->
+        <footer class="footer">
+            <span class="footer-text">© 2023 Virtual Labs, IIT Roorkee</span>
+        </footer>
+
+    </div>
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="S1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+</body>
+
+</html>

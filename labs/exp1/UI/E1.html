@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elbow Method</title>
+    <link rel="stylesheet" href="E1.css" />
+    <!-- <script src="https://www.gstatic.com/charts/loader.js"></script> -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="https://unpkg.com/popper.js@1"></script>
+    <script src="https://unpkg.com/tippy.js@5"></script>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"> -->
+
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js/dist/tippy.css">
+
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"> -->
+</head>
+
+<body>
+    <div class="container" id="box">
+        <!-- Instructions -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">×</span>
+                    <h2 style="text-align: left;">Instructions</h2>
+                </div>
+                <div class="modal-body">
+                    <p>
+                    <ol type="1" style="font-size: 20px; text-align: left;color:black;">
+                        <li>Enter the values of x and y in the data set and Click on the <strong>ADD</strong> button.
+                        </li>
+                        <li>Repeat step 1 up to 8 times.</li>
+                        <li>Click on the <strong>NEXT</strong> button.</li>
+                        <li> Select centroids and click on the <strong>SUBMIT</strong> button.
+                        </li>
+                        <li>Find out the Euclidean distance between a centroid and a data point by clicking on the
+                            <strong>DISTSNCE</strong> button.
+                        </li>
+                        <li>
+                            Click on the <strong>CLUSTER</strong> button to find cluster of each data point.
+                        </li>
+                        <li>
+                            Click on the <strong>CENTROIDS</strong> button and compute the new centroid of each
+                            Cluster.
+                        </li>
+                        <li>
+                            Repeat steps 4 to 7 until cluster value and new clsuter value are not matched.
+                        </li>
+                        <li>If the Cluster matches the new Cluster, then click on the <strong>NEXT</strong> button and
+                            enter the required value in the SSE equation.
+                        </li>
+                        <li>After finding total SSE click on the <strong>NEXT</strong> button and repeat steps 8 to 9
+                            for K = 2 to 7.
+                        </li>
+                        <!-- <li>Click on Analyse tab.
+                        </li> -->
+                        <li>Click on the <strong>PLOT</strong> button to show the graph.</li>
+                    </ol>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <br>
+                </div>
+            </div>
+        </div>
+
+        <!-- header -->
+        <header class="header">
+            <div class="tabs">
+                <!-- tabs -->
+                <div id="tab-1" class="tab-1-invert"
+                    style="color: black;border-top-left-radius: 10px;background-color:#e0e0e0;">
+                    <div class="tab-create tab-1-invert">
+
+                        CREATE
+                    </div>
+                    <img id="createimg" src="create1.png" style="margin-top: 3px; margin-right: 10px; height: 85%;"
+                        alt="">
+
+                </div>
+                <div id="tab-2" class="tab-1-disInvert" style="display: flex; border-right: 2px solid black;">
+                    <div class="tab-create tab-1-disInvert">
+
+                        <!-- <a href="testing.html" class="tab-text"> COMPUTE</a> -->COMPUTE
+                    </div>
+                    <img id="calcimg" src="calculator.png" class="disableCompute"
+                        style="margin-top: 3px; margin-right: 10px; height: 85%;" id="calImg" alt="">
+                </div>
+                <div id="tab-3" class="tab-2-disInvert" style="display: flex; border-right: 2px solid black;">
+                    <div class="tab-create tab-2-disInvert" id="ana">
+
+                        <!-- <a href="testing.html" class="tab-text"> COMPUTE</a> -->ANALYSE
+                    </div>
+                    <img id="anaimg" src="ANALYSIS ICON.png" class="disableCompute"
+                        style="margin-top: 3px; margin-right: 10px; height: 85%;" id="calImg" alt="">
+                </div>
+            </div>
+            <div class="instruction-container">
+                <a class="header-text" id="myBtn" style="padding-top: 5px" href="#">INSTRUCTIONS</a>
+            </div>
+        </header>
+
+
+
+
+        <div class="sec-con-container" id="trainingSection">
+            <div class="sec-con-column" id="non-table-section">
+                <!-- Data controls -->
+                <div class="training-left-side-container" id="training-left-side-container-1">
+                    <div class="sub-div-control" id="training-control">
+                        <header class="header-box"><strong>DATA SET</strong></header>
+                        <div class="control-panel">
+                            <div class="Data-set-x-value-input-container">
+                                <lab class="control-input-heading"><strong>X-VALUE</strong></lab>
+                                <input type="number" class="input-control" id="X" placeholder="x-coordinate"
+                                    oninput="limitDecimals(event)" min="0" title="Range: (-100,100)">
+                            </div>
+                            <div class=" Data-set-x-value-input-container">
+                                <lab class="control-input-heading"><strong>Y-VALUE</strong></lab>
+                                <input type="number" class="input-control" id="Y" placeholder="y-coordinate"
+                                    oninput="limitDecimals(event)" title="Range: (-100,100)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- data button section -->
+                    <div class="control-panel-button-container" id="data-button-container">
+                        <input class="button" type="button" id="add-button" onclick="addDataPoint()" value="ADD"
+                            style="margin-left: 3px;" />
+                        <input class="button" type="button" value="RESET" onclick="window.location.href='E1.html'"
+                            style="margin-left: 3px;" />
+                        <!-- <input class="button-next" type="button" id="next-button" value="NEXT" style="margin-left: 3px;" /> -->
+                        <button id="next-button" class="button">NEXT</button>
+                    </div>
+
+                </div>
+                <!-- graph -->
+                <div class="sub-div-plot-Create" id="graphId">
+                    <header class="header-box"><strong>GRAPH</strong></header>
+                    <div id="chart-container">
+                        <div id="chart"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- table -->
+            <div class="sec-con-table" id="tableId">
+                <div class="sub-div-table">
+                    <header class="header-box"><strong>OBSERVATION TABLE</strong></header>
+
+                    <div id="tablesContainer">
+                        <table id="data-table">
+                            <!-- <thead> -->
+                            <tr id="">
+                                <th><strong>S. NO.</strong></th>
+                                <th><strong>X</strong></th>
+                                <th><strong>Y</strong></th>
+                                <th id="deleteButton"><strong>DELETE</strong></th>
+                            </tr>
+                            <!-- </thead> -->
+                            <!-- <tbody> -->
+                            <!-- Data point coordinates will be dynamically populated here -->
+                            <!-- </tbody> -->
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div id="elbow-compute">
+                <div class="sec-con-table-elbow-compute" id="tableId">
+                    <div class="sub-div-table-elbow-compute">
+                        <header class="header-box"><strong>OBSERVATION TABLE</strong></header>
+                        <div class="k-show-elbow" id="kshow">for k = 1</div>
+                        <div id="tablesContainer-elbow-compute" class="overflow-auto">
+                            <!-- <div class="overflowContainer"> -->
+                            <table id="data-table-compute">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">S.No.</th>
+                                        <th rowspan="2">X</th>
+                                        <th rowspan="2">Y</th>
+                                        <th id="distance-header">Distance</th>
+                                        <th rowspan="2">Cluster</th>
+                                        <th rowspan="2">New Cluster</th>
+                                    </tr>
+                                    <tr id="distance-sub-columns">
+                                        <!-- Distance sub-columns will be dynamically populated here -->
+                                        <th>D1</th>
+                                        <th>D2</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Data point coordinates will be dynamically populated here -->
+                                </tbody>
+                            </table>
+                            <!-- </div> -->
+                        </div>
+                        <div class="elbow-compute-table-button-container">
+                            <button id="button-distance" class="button">DISTANCE</button>
+                            <button id="button-CLUSTER" class="button">CLUSTER</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Elbow method left side -->
+                <div class="sec-con-column-elbow-compute-section" id="non-table-section-Elbow">
+                    <!-- cendroid-control -->
+                    <div class="elbow-compute-left-side-container" id="training-left-side-container-1-elbow">
+                        <div class="sub-div-control-elbow" id="cendroid-control">
+                            <header class="header-box"><strong>RANDOMLY INITIALIZE CENTROIDS</strong></header>
+                            <div class="cendroid-control-panel">
+                                <div class="Data-set-cendroid-value-input-container">
+                                    <label class="control-input-heading"><strong style="padding-left: 20px;">Select
+                                            Centroids:</strong></label>
+                                    <div class="flexContainerForSelectingCentoinds"> <select name="cendroid"
+                                            id="Selectcendroid" class="cendroidStyle" aria-placeholder="cendroidStyle"
+                                            multiple>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                        </select>
+                                        <div class="flexContainerForCompute">
+                                            <input class="button" type="button" id="cendroid-submit-button"
+                                                value="SUBMIT" style="margin-left: 3px;" onclick="submitCendroid()" />
+                                            <!-- <input class="button" type="button" id="cendroid-reset-button" value="RESET"
+                                            style="margin-left: 3px;" onclick="resetCentroidSection()" /> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="elbow-compute-left-side-container" id="training-left-side-container-2-elbow">
+                        <div class="sub-div-control-elbow" id="cendroid-control">
+                            <header class="header-box"><strong>CENTROIDS</strong></header>
+                            <div id="showOldCentroids"></div>
+
+                        </div>
+                    </div>
+                    <!-- graph -->
+                    <div class="sub-div-plot-elbow-compute" id="ElbowComputeId">
+                        <header class="header-box"><strong id="calculation_formula_header">FORMULA</strong></header>
+                        <div id="calculation"></div>
+                        <div class="button-compute-elbow">
+                            <button class="button" id="new-centroid-button" style="width: 140px;">CENTROIDS</button>
+                            <button id="submit_button" class="button">SUBMIT</button>
+                            <button id="SSE_next" class="button">NEXT</button>
+                            <button class="button" id="next-elbow-button">NEXT</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <!-- analyse section -->
+        <div class="compute-sec-con-container" id="analyseSection">
+            <div class="flux-box">
+                <!-- table -->
+                <div class="analysis-sec-con-table">
+                    <div class="analysis-sub-div-table">
+                        <header class="header-box"><strong>OBSERVATION TABLE</strong></header>
+                        <div id="analysisTablesContainer">
+                            <table id="sse-table" border="1">
+                                <thead>
+                                    <tr>
+                                        <th>CLUSTERS</th>
+                                        <th>SSE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Table rows will be added dynamically here -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="sec-con-column-analysis">
+
+                    <div class="sub-div-plot-analysis">
+                        <header class="header-box"><strong>GRAPH</strong></header>
+                        <div id="scatter-chart"></div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="analysis-button-container">
+                <button class="button" id="plot-analysis">PLOT</button>
+                <button class="button" id="print" onclick="printPage()">PRINT</button>
+            </div>
+
+        </div>
+        <!-- footer -->
+        <footer class="footer">
+            <span class="footer-text">© 2023 Virtual Labs, IIT Roorkee</span>
+        </footer>
+
+    </div>
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="E1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+</body>
+
+</html>

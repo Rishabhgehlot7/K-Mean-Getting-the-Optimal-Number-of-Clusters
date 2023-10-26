@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>K-Mean: Getting the Optimal Number of Clusters.</title>
+    <link rel="stylesheet" href="E1.css">
+    <!-- <script src="index.html"></script> -->
+
+</head>
+
+<body>
+
+    <div class="container" id="box">
+        <!-- Instructions -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">×</span>
+                    <h2 style="text-align: left;">Instructions</h2>
+                </div>
+                <div class="modal-body">
+                    <p>
+                    <ol type="1" style="font-size: 20px; text-align: left;color:black">
+                        <li>Select the method.</li>
+                        <li>Click on the <strong>SUBMIT</strong> button.</li>
+                        <li>Click on the <strong>CREATE</strong>.</li>
+                    </ol>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <br>
+                </div>
+            </div>
+        </div>
+
+        <!-- header -->
+        <header class="header">
+            <div class="tabs">
+
+                <!-- tabs -->
+                <div id="tab-1" class="tab-1-index" style="cursor: not-allowed;"
+                    style="display: flex; border-right: 2px solid black; color: white;background-color:#16696F;">
+                    <div class="tab-create " id="myCreate" style="cursor: not-allowed;">
+                        <a href="#" id="mypage" class="tab-text"
+                            style="color:white;font-weight: bold;cursor: not-allowed;">
+                            CREATE</a>
+                    </div>
+                    <img src="create.png" id="myCreateImage"
+                        style="margin-top: 3px; margin-right: 10px; height: 85%;cursor: not-allowed;" alt="" onclick="">
+
+                </div>
+                <div id="tab-2" class="tab-1-index"
+                    style="display: flex; border-right: 2px solid black; color: white;cursor:not-allowed;">
+                    <div class="tab-create" style="cursor:not-allowed;">
+
+                        <!-- <a href="testing.html" class="tab-text"> COMPUTE</a> -->COMPUTE
+                    </div>
+                    <img src="calculator.png"
+                        style="margin-top: 3px; margin-right: 10px; height: 85%;cursor:not-allowed;" alt="">
+                </div>
+                <div id="tab-3" class="tab-1-index"
+                    style="display: flex; border-right: 2px solid black; color: white;cursor:not-allowed;">
+                    <div class="tab-create" style="cursor:not-allowed;">
+
+                        <!-- <a href="testing.html" class="tab-text"> COMPUTE</a> -->ANALYSE
+                    </div>
+                    <img src="ANALYSIS ICON.png" class="disableCompute"
+                        style="margin-top: 3px; margin-right: 10px; height: 85%;" id="calImg" alt="">
+                </div>
+            </div>
+            <div class="instruction-container">
+                <a class="header-text" id="myBtn" style="padding-top: 5px" href="#">INSTRUCTIONS</a>
+            </div>
+        </header>
+        <div class="Data-set-K-value-input-container" id="mymethod">
+            <label class="control-input-heading"><strong>Select the method:</strong>
+            </label>
+            <!-- <input type="number" class="input-control" id="X" placeholder="x-coordinate" oninput="limitDecimals(event)"> -->
+            <select name="Clusters" id="SelectMethod" class="methodStyle">
+                <option class="ChangeOptionBackground" value="0" hidden>NULL
+                </option>
+                <option class="ChangeOptionBackground" value="1">Elbow method</option>
+                <option class="ChangeOptionBackground" value="2">Silhouette method</option>
+                <!-- <option class="ChangeOptionBackground" value="4">4</option> -->
+            </select>
+            <input class="button" type="button" id="cluster-submit-button" value="SUBMIT" style="margin-left: 3px;"
+                onclick="sumbitMethod()" />
+        </div>
+
+
+
+        <!-- footer -->
+        <footer class="footer">
+            <span class="footer-text">© 2023 Virtual Labs, IIT Roorkee</span>
+        </footer>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
+    <script>
+
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var modalBtn = document.getElementById("myBtn");
+        // var modalBtn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var closeBtn = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal
+        modalBtn.addEventListener("click", function () {
+            modal.style.display = "block";
+        });
+
+        // When the user clicks on <span> (x), close the modal
+        closeBtn.addEventListener("click", function () {
+            modal.style.display = "none";
+        });
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.addEventListener("click", function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        });
+        const myContainer = document.getElementById('box');
+        Swal.fire({
+            icon: 'info',
+            html: "Select the <b>Method</b> and Click on <b style='color: #FF6600'>SUBMIT</b> button.",
+            customClass: {
+                container: "swal-container",
+                popup: "swal-popup",
+                title: "swal-title",
+                content: "swal-content",
+            },
+            target: myContainer,
+            didOpen: () => {
+                const container = document.querySelector('.swal-container');
+                const containerWidth = myContainer.offsetWidth;
+                const containerHeight = myContainer.offsetHeight;
+
+                // Change font size based on container size
+                if (containerWidth >= 1000 && containerHeight >= 672) {
+                    container.style.fontSize = '24px';
+                } else {
+                    container.style.fontSize = '16px';
+                }
+
+                // Adjust dimensions and position of the Swal container
+                container.style.position = 'absolute';
+                container.style.width = '100%';
+                container.style.height = '100%';
+                container.style.top = '0';
+                container.style.left = '0';
+                container.style.padding = '0';
+            },
+        });
+
+
+        function sumbitMethod() {
+            var selectElement = document.getElementById('SelectMethod');
+            if (selectElement.value === '0') {
+                Swal.fire({
+                    icon: 'info',
+                    html: "Please select method.",
+                    customClass: {
+                        container: "swal-container",
+                        popup: "swal-popup",
+                        title: "swal-title",
+                        content: "swal-content",
+                    },
+                    target: myContainer,
+                    didOpen: () => {
+                        const container = document.querySelector('.swal-container');
+                        const containerWidth = myContainer.offsetWidth;
+                        const containerHeight = myContainer.offsetHeight;
+
+                        // Change font size based on container size
+                        if (containerWidth >= 1000 && containerHeight >= 672) {
+                            container.style.fontSize = '24px';
+                        } else {
+                            container.style.fontSize = '16px';
+                        }
+
+                        // Adjust dimensions and position of the Swal container
+                        container.style.position = 'absolute';
+                        container.style.width = '100%';
+                        container.style.height = '100%';
+                        container.style.top = '0';
+                        container.style.left = '0';
+                        container.style.padding = '0';
+                    },
+                });
+
+                return;
+            }
+            else if (selectElement.value === '1') {
+                document.getElementById('mypage').href = "E1.html";
+                document.getElementById('mypage').style.cursor = "pointer";
+                document.getElementById('myCreateImage').style.cursor = "pointer";
+                document.getElementById('myCreate').style.cursor = "pointer";
+                document.getElementById('tab-1').style.cursor = "pointer";
+                Swal.fire({
+                    icon: 'info',
+                    html: "Click on the <b>CREATE</b>.",
+                    customClass: {
+                        container: "swal-container",
+                        popup: "swal-popup",
+                        title: "swal-title",
+                        content: "swal-content",
+                    },
+                    target: myContainer,
+                    didOpen: () => {
+                        const container = document.querySelector('.swal-container');
+                        const containerWidth = myContainer.offsetWidth;
+                        const containerHeight = myContainer.offsetHeight;
+
+                        // Change font size based on container size
+                        if (containerWidth >= 1000 && containerHeight >= 672) {
+                            container.style.fontSize = '24px';
+                        } else {
+                            container.style.fontSize = '16px';
+                        }
+
+                        // Adjust dimensions and position of the Swal container
+                        container.style.position = 'absolute';
+                        container.style.width = '100%';
+                        container.style.height = '100%';
+                        container.style.top = '0';
+                        container.style.left = '0';
+                        container.style.padding = '0';
+                    },
+                });
+            }
+            else if (selectElement.value === '2') {
+                document.getElementById('mypage').href = "S1.html";
+                document.getElementById('mypage').style.cursor = "pointer";
+                document.getElementById('myCreateImage').style.cursor = "pointer";
+                document.getElementById('myCreate').style.cursor = "pointer";
+                document.getElementById('tab-1').style.cursor = "pointer";
+                Swal.fire({
+                    icon: 'info',
+                    html: "Click on the <b>CREATE</b>.",
+                    customClass: {
+                        container: "swal-container",
+                        popup: "swal-popup",
+                        title: "swal-title",
+                        content: "swal-content",
+                    },
+                    target: myContainer,
+                    didOpen: () => {
+                        const container = document.querySelector('.swal-container');
+                        const containerWidth = myContainer.offsetWidth;
+                        const containerHeight = myContainer.offsetHeight;
+
+                        // Change font size based on container size
+                        if (containerWidth >= 1000 && containerHeight >= 672) {
+                            container.style.fontSize = '24px';
+                        } else {
+                            container.style.fontSize = '16px';
+                        }
+
+                        // Adjust dimensions and position of the Swal container
+                        container.style.position = 'absolute';
+                        container.style.width = '100%';
+                        container.style.height = '100%';
+                        container.style.top = '0';
+                        container.style.left = '0';
+                        container.style.padding = '0';
+                    },
+                });
+            }
+        }
+
+
+
+
+
+    </script>
+</body>
+
+</html>
